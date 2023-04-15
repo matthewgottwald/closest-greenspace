@@ -1,0 +1,43 @@
+{
+  "api": {
+    "apic0a8a592": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "closestgreenspaced8ac9e93"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
+    }
+  },
+  "function": {
+    "closestgreenspaced8ac9e93": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "parameters": {
+    "AMPLIFY_function_closestgreenspaced8ac9e93_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "closestgreenspaced8ac9e93"
+        }
+      ]
+    },
+    "AMPLIFY_function_closestgreenspaced8ac9e93_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "closestgreenspaced8ac9e93"
+        }
+      ]
+    }
+  }
+}

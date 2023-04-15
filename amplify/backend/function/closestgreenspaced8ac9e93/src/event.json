@@ -1,0 +1,8 @@
+{
+  "resource": "/greenspaces",
+  "path": "/greenspaces",
+  "queryStringParameters": {
+    "latitude": "43.44752191219844",
+    "longitude": "-80.50109506414753"
+  }
+}

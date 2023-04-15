@@ -1,0 +1,26 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-closestgreenspace-dev-141453-authRole",
+      "UnauthRoleArn": "arn:aws:iam::855161673999:role/amplify-closestgreenspace-dev-141453-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::855161673999:role/amplify-closestgreenspace-dev-141453-authRole",
+      "Region": "us-east-2",
+      "DeploymentBucketName": "amplify-closestgreenspace-dev-141453-deployment",
+      "UnauthRoleName": "amplify-closestgreenspace-dev-141453-unauthRole",
+      "StackName": "amplify-closestgreenspace-dev-141453",
+      "StackId": "arn:aws:cloudformation:us-east-2:855161673999:stack/amplify-closestgreenspace-dev-141453/c4ddcad0-cf26-11ed-8d51-025a7738d5a0",
+      "AmplifyAppId": "d2wvqznhq50asw"
+    },
+    "categories": {
+      "function": {
+        "closestgreenspaced8ac9e93": {
+          "deploymentBucketName": "amplify-closestgreenspace-dev-141453-deployment",
+          "s3Key": "amplify-builds/closestgreenspaced8ac9e93-666445416e4670733371-build.zip"
+        }
+      },
+      "api": {
+        "apic0a8a592": {}
+      }
+    }
+  }
+}

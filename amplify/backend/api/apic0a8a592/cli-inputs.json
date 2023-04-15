@@ -1,0 +1,12 @@
+{
+  "version": 1,
+  "paths": {
+    "/greenspaces": {
+      "name": "/greenspaces",
+      "lambdaFunction": "closestgreenspaced8ac9e93",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}
