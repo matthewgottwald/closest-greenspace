@@ -1,23 +1,31 @@
 import React from "react";
 
 class SearchCoordinates extends React.Component {
-  constructor() {
-    super();
-    this.add = this.add.bind(this)
+  constructor(props) {
+    super(props);
+    this.add = this.add.bind(this);
     this.state = {
-      latitude: 0,
-      longitude: 0,
+      currentSearch: {
+        lat: props.currentSearch.lat,
+        lng: props.currentSearch.lng,
+      },
     };
   }
 
   add(e) {
+    console.log(this.state);
     e.preventDefault();
     if (this.state.latitude === 0 || this.state.longitude === 0) {
       alert("All the fields are mandatory!");
       return;
     }
     this.props.onSearchSubmit(this.state);
-    this.setState({ latitude: 0, longitude: 0 });
+    this.setState({
+      currentSearch: {
+        lat: 0,
+        lng: 0,
+      },
+    });
   }
 
   render() {
@@ -31,8 +39,15 @@ class SearchCoordinates extends React.Component {
               type="text"
               name="latitude"
               placeholder="Latitude"
-              value={this.state.latitude}
-              onChange={(e) => this.setState({ latitude: e.target.value })}
+              value={this.state.currentSearch.lat}
+              onChange={(e) =>
+                this.setState((prevState) => ({
+                  currentSearch: {
+                    ...prevState.currentSearch,
+                    lat: e.target.value,
+                  },
+                }))
+              }
             />
           </div>
           <div className="field">
@@ -41,8 +56,15 @@ class SearchCoordinates extends React.Component {
               type="text"
               name="longitude"
               placeholder="Longitude"
-              value={this.state.longitude}
-              onChange={(e) => this.setState({ longitude: e.target.value })}
+              value={this.state.currentSearch.lng}
+              onChange={(e) =>
+                this.setState((prevState) => ({
+                  currentSearch: {
+                    ...prevState.currentSearch,
+                    lng: e.target.value,
+                  },
+                }))
+              }
             />
           </div>
           <button className="ui button blue">Search</button>

@@ -2,9 +2,11 @@ import React from "react";
 import "./App.css";
 import Header from "./Header";
 import SearchCoordinates from "./SearchCoordinates";
-import GreenspaceResult from "./GreenspaceResult";
+import SearchedCoordinateList from "./SearchedCoordinateList";
+import ClosestGreenspace from "./ClosestGreenspace";
 import Amplify, { API } from "aws-amplify";
 import { v4 as uuid } from "uuid";
+import Map from "./Maps";
 
 const myAPI = "apic0a8a592";
 const path = "/greenspaces";
@@ -20,22 +22,31 @@ class App extends React.Component {
   constructor() {
     super();
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
+    this.onMapClick = this.onMapClick.bind(this);
     this.state = {
-      searchedCoorindates: [],
-      greenspaces: [],
+      searchedCoordinates: [],
+      closestGreenspace: [],
+      currentSearch: { lat: 0, lng: 0 },
     };
+  }
+
+  onMapClick(coordinates) {
+    this.setState({
+      searchedCoordinates: [...this.state.searchedCoordinates, coordinates],
+      currentSearch: coordinates,
+    });
   }
 
   onSearchSubmit(coordinates) {
     this.setState({
-      searchedCoorindates: [...this.state.searchedCoorindates, coordinates],
+      searchedCoordinates: [...this.state.searchedCoordinates, coordinates],
     });
     let latitude = coordinates.latitude;
     let longitude = coordinates.longitude;
     API.get(myAPI, path, myInit).then((response) => {
       this.setState({
-        greenspaces: [
-          ...this.state.greenspaces,
+        closestGreenspace: [
+          ...this.state.closestGreenspace,
           {
             id: uuid(),
             park_name: response.data[0],
@@ -52,8 +63,23 @@ class App extends React.Component {
     return (
       <div className="ui container">
         <Header />
-        <SearchCoordinates onSearchSubmit={this.onSearchSubmit} />
-        <GreenspaceResult greenspaces={this.state.greenspaces} />
+        <div className="ui grid">
+          <div className="ui eleven wide column">
+            <Map
+              onMapClick={this.onMapClick}
+              currentSearch={this.state.currentSearch}
+            />
+          </div>
+          <div className="ui one wide column"></div>
+          <div className="ui four wide column">
+            <SearchCoordinates
+              onSearchSubmit={this.onSearchSubmit}
+              currentSearch={this.state.currentSearch}
+            />
+          </div>
+        </div>
+        {/* <ClosestGreenspace greenspace={this.state.closestGreenspace} /> */}
+        <SearchedCoordinateList greenspaces={this.state.closestGreenspace} />
       </div>
     );
   }
