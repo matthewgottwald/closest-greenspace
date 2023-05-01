@@ -40,7 +40,7 @@ def handler(event, context):
         # General Query - NO city, subcategory
         if (city is None) and (subcategory is None):
             cursor.execute(
-                'SELECT park_name, latitude, longitude, SQRT(POW(111.2 * (latitude - ' + str(cur_latitude) + '), 2) + POW(111.2 * (' + str(cur_longitude) + ' - longitude) * COS(latitude / 57.3), 2)) AS distance  FROM ' + active_table + ' HAVING distance < ' + str(search_distance) + ' ORDER BY distance')
+                'SELECT park_name, latitude, longitude, description, park_operating, SQRT(POW(111.2 * (latitude - ' + str(cur_latitude) + '), 2) + POW(111.2 * (' + str(cur_longitude) + ' - longitude) * COS(latitude / 57.3), 2)) AS distance  FROM ' + active_table + ' HAVING distance < ' + str(search_distance) + ' ORDER BY distance')
 
         # City Query - No subcategory
         elif (city is not None) and (subcategory is None):

@@ -19,6 +19,14 @@ class App extends React.Component {
     this.state = {
       searchedCoordinates: [],
       closestGreenspace: [],
+      closestGreenspace1: {
+        park_name: null,
+        lat: null,
+        lng: null,
+        desc: null,
+        operationStatus: null,
+        distance: null,
+      },
       currentSearch: { lat: 0, lng: 0 },
     };
   }
@@ -38,19 +46,31 @@ class App extends React.Component {
     };
 
     API.get(myAPI, path, myInit).then((response) => {
+      console.log(response.data);
       this.setState({
-        closestGreenspace: [
-          ...this.state.closestGreenspace,
-          {
-            id: uuid(),
-            park_name: response.data[0],
-            latitude: response.data[1],
-            longitude: response.data[2],
-            distance: response.data[3],
-          },
-        ],
+        closestGreenspace1: {
+          park_name: response.data[0],
+          lat: response.data[1],
+          lng: response.data[2],
+          distance: response.data[3],
+        },
       });
     });
+
+    // API.get(myAPI, path, myInit).then((response) => {
+    //   this.setState({
+    //     closestGreenspace: [
+    //       ...this.state.closestGreenspace,
+    //       {
+    //         id: uuid(),
+    //         park_name: response.data[0],
+    //         latitude: response.data[1],
+    //         longitude: response.data[2],
+    //         distance: response.data[3],
+    //       },
+    //     ],
+    //   });
+    // });
   }
 
   onSearchSubmit(coordinates) {
@@ -101,7 +121,7 @@ class App extends React.Component {
             />
           </div>
         </div>
-        {/* <ClosestGreenspace greenspace={this.state.closestGreenspace} /> */}
+        <ClosestGreenspace closestGreenspace={this.state.closestGreenspace1} />
         <SearchedCoordinateList greenspaces={this.state.closestGreenspace} />
       </div>
     );
