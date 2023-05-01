@@ -13,13 +13,12 @@ class SearchCoordinates extends React.Component {
   }
 
   add(e) {
-    console.log(this.state);
     e.preventDefault();
     if (this.state.latitude === 0 || this.state.longitude === 0) {
       alert("All the fields are mandatory!");
       return;
     }
-    this.props.onSearchSubmit(this.state);
+    this.props.onSearchSubmit(this.state.currentSearch);
     this.setState({
       currentSearch: {
         lat: 0,

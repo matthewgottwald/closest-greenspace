@@ -10,13 +10,6 @@ import Map from "./Maps";
 
 const myAPI = "apic0a8a592";
 const path = "/greenspaces";
-const myInit = {
-  response: true,
-  queryStringParameters: {
-    latitude: "43.44752191219844",
-    longitude: "-80.50109506414753",
-  },
-};
 
 class App extends React.Component {
   constructor() {
@@ -35,14 +28,44 @@ class App extends React.Component {
       searchedCoordinates: [...this.state.searchedCoordinates, coordinates],
       currentSearch: coordinates,
     });
+
+    const myInit = {
+      response: true,
+      queryStringParameters: {
+        latitude: coordinates.lat,
+        longitude: coordinates.lng,
+      },
+    };
+
+    API.get(myAPI, path, myInit).then((response) => {
+      this.setState({
+        closestGreenspace: [
+          ...this.state.closestGreenspace,
+          {
+            id: uuid(),
+            park_name: response.data[0],
+            latitude: response.data[1],
+            longitude: response.data[2],
+            distance: response.data[3],
+          },
+        ],
+      });
+    });
   }
 
   onSearchSubmit(coordinates) {
     this.setState({
       searchedCoordinates: [...this.state.searchedCoordinates, coordinates],
     });
-    let latitude = coordinates.latitude;
-    let longitude = coordinates.longitude;
+
+    const myInit = {
+      response: true,
+      queryStringParameters: {
+        latitude: coordinates.lat,
+        longitude: coordinates.lng,
+      },
+    };
+
     API.get(myAPI, path, myInit).then((response) => {
       this.setState({
         closestGreenspace: [

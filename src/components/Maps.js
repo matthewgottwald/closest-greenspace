@@ -26,7 +26,7 @@ class Map extends React.Component {
   }
 
   render() {
-    // console.log(this.props.markerCoord.lat);
+    // These default props are where the map zooms to when we first turn it on
     const defaultProps = {
       center: {
         lat: 43.8021959858542,
@@ -37,11 +37,14 @@ class Map extends React.Component {
     return (
       <div className="ui main">
         <div className="ui two column centered grid">
-          <div className="column">
+          <div className="ui center aligned column">
             <h2>Click the map to search</h2>
           </div>
-          <div className="one column centered row">
-            <div className="column map" style={{ height: "40vh", width: "40vw" }}>
+          <div className="ui one column centered row">
+            <div
+              className="ui column map"
+              style={{ height: "40vh", width: "40vw" }}
+            >
               <GoogleMapReact
                 bootstrapURLKeys={{
                   key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,

@@ -9,17 +9,19 @@ endpoint = 'greenspaces-database.ctsnk4nhnrde.us-east-2.rds.amazonaws.com'
 username = 'admin'
 password = 'greenspaces'
 database_name = 'greenspaces'
-active_table = 'kitchener_greenspaces'
+active_table = 'ontario_provincial_parks'
 city = None
 subcategory = None
 
 # Connection
 connection = pymysql.connect(
     host=endpoint, user=username, passwd=password, db=database_name)
-cursor = connection.cursor()
+print("setup handler")
 
 
 def handler(event, context):
+    cursor = connection.cursor()
+
     print('received event:')
     print(event)
 
@@ -27,28 +29,40 @@ def handler(event, context):
     cur_latitude = float(event["queryStringParameters"]["latitude"])
     cur_longitude = float(event["queryStringParameters"]["longitude"])
 
+    search_distance = 25
+
     cur_latitude_rad = cur_latitude * (pi / 180)
     cur_longitude_rad = cur_longitude * (pi / 180)
 
-    # Get the required data from the database
-    # General Query - NO city, subcategory
-    if (city is None) and (subcategory is None):
-        cursor.execute(
-            'SELECT greenspace_name, latitude, longitude, SQRT(POW(111.2 * (latitude - ' + str(cur_latitude) + '), 2) + POW(111.2 * (' + str(cur_longitude) + ' - longitude) * COS(latitude / 57.3), 2)) AS distance  FROM ' + active_table + ' HAVING distance < 25 ORDER BY distance')
+    # Get the required data from the database - loop until we get a result
 
-    # City Query - No subcategory
-    elif (city is not None) and (subcategory is None):
-        cursor.execute('SELECT greenspace_name, latitude, longitude FROM ' +
-                       active_table + ' WHERE city = ' + city)
+    while (cursor.rowcount <= 0):
+        # General Query - NO city, subcategory
+        if (city is None) and (subcategory is None):
+            cursor.execute(
+                'SELECT park_name, latitude, longitude, SQRT(POW(111.2 * (latitude - ' + str(cur_latitude) + '), 2) + POW(111.2 * (' + str(cur_longitude) + ' - longitude) * COS(latitude / 57.3), 2)) AS distance  FROM ' + active_table + ' HAVING distance < ' + str(search_distance) + ' ORDER BY distance')
 
-    # City + Subcategory Query
-    elif (city is not None) and (subcategory is not None):
-        cursor.execute('SELECT greenspace_name, latitude, longitude FROM ' +
-                       active_table + ' WHERE city = ' + city + ' AND subcategory = ' + subcategory)
+        # City Query - No subcategory
+        elif (city is not None) and (subcategory is None):
+            cursor.execute('SELECT park_name, latitude, longitude FROM ' +
+                           active_table + ' WHERE city = ' + city)
+
+        # City + Subcategory Query
+        elif (city is not None) and (subcategory is not None):
+            cursor.execute('SELECT park_name, latitude, longitude FROM ' +
+                           active_table + ' WHERE city = ' + city + ' AND subcategory = ' + subcategory)
+
+        # Increase the possible distance by double
+        search_distance = search_distance * 2
 
     closest_greenspaces = cursor.fetchall()
+    print(closest_greenspaces)
 
     return {
+
+        # Return error did not provide needed latitude / longitude
+
+        # Return the result if provided
         'statusCode': 200,
         'headers': {
             # 'Content-Type': 'application/json'
