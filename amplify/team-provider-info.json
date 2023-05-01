@@ -15,7 +15,7 @@
       "function": {
         "closestgreenspaced8ac9e93": {
           "deploymentBucketName": "amplify-closestgreenspace-dev-141453-deployment",
-          "s3Key": "amplify-builds/closestgreenspaced8ac9e93-666445416e4670733371-build.zip"
+          "s3Key": "amplify-builds/closestgreenspaced8ac9e93-5854736179577968774d-build.zip"
         }
       },
       "api": {
