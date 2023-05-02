@@ -1,5 +1,7 @@
 # Getting Started with Create React App
 
+<img width="958" alt="image" src="https://user-images.githubusercontent.com/45056814/235562707-77d3c091-51af-42a7-8eeb-fda79bcddfca.png">
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
