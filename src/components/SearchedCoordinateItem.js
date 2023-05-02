@@ -1,5 +1,6 @@
 import React from "react";
 
+// Displays the the searched coordinate item
 class SearchedCoordinateItem extends React.Component {
   constructor() {
     super();

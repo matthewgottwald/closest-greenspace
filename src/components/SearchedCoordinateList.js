@@ -1,22 +1,24 @@
 import React from "react";
 import SearchedCoordinateItem from "./SearchedCoordinateItem";
 
+// displays the searched coordinate list
 class SearchedCoordinateList extends React.Component {
   constructor() {
     super();
-    this.renderGreenspaceList = this.renderGreenspaceList.bind(this);
+    // this.renderGreenspaceList = this.renderGreenspaceList.bind(this);
   }
 
-  renderGreenspaceList() {
-    this.props.searchedCoordinates.map((coordinates) => {
-      return (
-        <SearchedCoordinateItem
-          coordinates={coordinates}
-          key={coordinates.id}
-        />
-      );
-    });
-  }
+  // // Displays the list
+  // renderGreenspaceList() {
+  //   this.props.searchedCoordinates.map((coordinates) => {
+  //     return (
+  //       <SearchedCoordinateItem
+  //         coordinates={coordinates}
+  //         key={coordinates.id}
+  //       />
+  //     );
+  //   });
+  // }
 
   render() {
     return (
@@ -30,14 +32,17 @@ class SearchedCoordinateList extends React.Component {
             </tr>
           </thead>
           <tbody>
-            {this.props.searchedCoordinates.map((coordinates) => {
-              return (
-                <SearchedCoordinateItem
-                  coordinates={coordinates.coordinates}
-                  key={coordinates.id}
-                />
-              );
-            })}
+            {
+              // Display all searched coordinates stored
+              this.props.searchedCoordinates.map((coordinates) => {
+                return (
+                  <SearchedCoordinateItem
+                    coordinates={coordinates.coordinates}
+                    key={coordinates.id}
+                  />
+                );
+              })
+            }
           </tbody>
         </table>
       </div>

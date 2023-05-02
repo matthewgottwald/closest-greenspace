@@ -3,7 +3,7 @@ import React from "react";
 class SearchCoordinates extends React.Component {
   constructor(props) {
     super(props);
-    this.add = this.add.bind(this);
+    this.search = this.search.bind(this);
     this.state = {
       currentSearch: {
         lat: props.currentSearch.lat,
@@ -12,7 +12,8 @@ class SearchCoordinates extends React.Component {
     };
   }
 
-  add(e) {
+  // Submits the searched coordinates to be searched
+  search(e) {
     e.preventDefault();
     if (this.state.latitude === 0 || this.state.longitude === 0) {
       alert("All the fields are mandatory!");
@@ -31,7 +32,7 @@ class SearchCoordinates extends React.Component {
     return (
       <div className="ui main">
         <h2>Search Coordinates</h2>
-        <form className="ui form" onSubmit={this.add}>
+        <form className="ui form" onSubmit={this.search}>
           <div className="field">
             <label>Latitude</label>
             <input

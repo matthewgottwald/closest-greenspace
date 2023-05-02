@@ -8,14 +8,10 @@ import Amplify, { API } from "aws-amplify";
 import { v4 as uuid } from "uuid";
 import Map from "./Maps";
 
-const myAPI = "apic0a8a592";
-const path = "/greenspaces";
-
 class App extends React.Component {
   constructor() {
     super();
     this.onSearchSubmit = this.onSearchSubmit.bind(this);
-    this.onMapClick = this.onMapClick.bind(this);
     this.state = {
       searchedCoordinates: [],
       closestGreenspace: {
@@ -30,15 +26,11 @@ class App extends React.Component {
     };
   }
 
-  onMapClick(coordinates) {
-    this.setState({
-      searchedCoordinates: [
-        ...this.state.searchedCoordinates,
-        { id: uuid(), coordinates: coordinates },
-      ],
-      currentSearch: coordinates,
-    });
-
+  // Performs an API Request to get the closest greenspace to the given coordinates
+  getClosestGreenspace(coordinates) {
+    // Initialize details for API Request
+    const myAPI = "apic0a8a592";
+    const path = "/greenspaces";
     const myInit = {
       response: true,
       queryStringParameters: {
@@ -47,8 +39,8 @@ class App extends React.Component {
       },
     };
 
+    // Perform the API Request and update state
     API.get(myAPI, path, myInit).then((response) => {
-      console.log(response.data);
       this.setState({
         closestGreenspace: {
           park_name: response.data.park_name,
@@ -62,6 +54,7 @@ class App extends React.Component {
     });
   }
 
+  // Stores the coordinates from the search and performs API Request to get closest greenspace
   onSearchSubmit(coordinates) {
     this.setState({
       searchedCoordinates: [
@@ -71,27 +64,7 @@ class App extends React.Component {
       currentSearch: coordinates,
     });
 
-    const myInit = {
-      response: true,
-      queryStringParameters: {
-        latitude: coordinates.lat,
-        longitude: coordinates.lng,
-      },
-    };
-
-    API.get(myAPI, path, myInit).then((response) => {
-      console.log(response.data);
-      this.setState({
-        closestGreenspace: {
-          park_name: response.data.park_name,
-          lat: response.data.latitude,
-          lng: response.data.longitude,
-          desc: response.data.description,
-          operationStatus: response.data.park_operating,
-          distance: response.data.distance,
-        },
-      });
-    });
+    this.getClosestGreenspace(coordinates);
   }
 
   render() {
@@ -101,7 +74,7 @@ class App extends React.Component {
         <div className="ui grid">
           <div className="ui eleven wide column">
             <Map
-              onMapClick={this.onMapClick}
+              onMapClick={this.onSearchSubmit}
               currentSearch={this.state.currentSearch}
             />
           </div>

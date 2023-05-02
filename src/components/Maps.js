@@ -1,6 +1,7 @@
 import React from "react";
 import GoogleMapReact from "google-map-react";
 
+// Class to create a pin on map
 class Marker extends React.Component {
   constructor() {
     super();
@@ -15,12 +16,14 @@ class Marker extends React.Component {
   }
 }
 
+// Displays the map
 class Map extends React.Component {
   constructor() {
     super();
     this.getMapCoordinates = this.getMapCoordinates.bind(this);
   }
 
+  // store the map coordinates
   getMapCoordinates({ lat, lng }) {
     this.props.onMapClick({ lat, lng });
   }

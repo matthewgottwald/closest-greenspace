@@ -1,5 +1,6 @@
 import React from "react";
 
+// This class handles displaying the closest greenspace
 class ClosestGreenspace extends React.Component {
   constructor() {
     super();
