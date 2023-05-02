@@ -1,6 +1,6 @@
 import React from "react";
 
-class SearchCoordinates extends React.Component {
+class ClosestGreenspace extends React.Component {
   constructor() {
     super();
   }
@@ -25,11 +25,23 @@ class SearchCoordinates extends React.Component {
               <td data-label="Park Name">
                 {this.props.closestGreenspace.park_name}
               </td>
-              <td data-label="Latitude">24</td>
-              <td data-label="Longitude">Engineer</td>
-              <td data-label="Description">Engineer</td>
-              <td data-label="Operation Status">Engineer</td>
-              <td data-label="Distance">Engineer</td>
+              <td data-label="Latitude"> {this.props.closestGreenspace.lat}</td>
+              <td data-label="Longitude">
+                {" "}
+                {this.props.closestGreenspace.lng}
+              </td>
+              <td data-label="Description">
+                {" "}
+                {this.props.closestGreenspace.desc}
+              </td>
+              <td data-label="Operation Status">
+                {" "}
+                {this.props.closestGreenspace.operationStatus}
+              </td>
+              <td data-label="Distance">
+                {" "}
+                {this.props.closestGreenspace.distance}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -38,4 +50,4 @@ class SearchCoordinates extends React.Component {
   }
 }
 
-export default SearchCoordinates;
+export default ClosestGreenspace;

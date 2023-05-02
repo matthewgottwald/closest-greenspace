@@ -1,8 +1,9 @@
 {
+  "httpMethod": "GET",
   "resource": "/greenspaces",
   "path": "/greenspaces",
   "queryStringParameters": {
-    "latitude": "43.44752191219844",
-    "longitude": "-80.50109506414753"
+    "latitude": "43.809557130572834",
+    "longitude": "-79.14536629424705"
   }
 }

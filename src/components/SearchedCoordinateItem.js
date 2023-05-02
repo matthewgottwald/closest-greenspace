@@ -1,21 +1,19 @@
 import React from "react";
 
-class GreenspaceItem extends React.Component {
+class SearchedCoordinateItem extends React.Component {
   constructor() {
     super();
   }
 
   render() {
-    const { id, park_name, latitude, longitude, distance } =
-      this.props.greenspace;
+    const { lat, lng } = this.props.coordinates;
     return (
       <tr>
-        <td data-label="Latitude">{park_name}</td>
-        <td data-label="Age">{latitude}</td>
-        <td data-label="Job">{longitude}</td>
+        <td data-label="Age">{lat}</td>
+        <td data-label="Job">{lng}</td>
       </tr>
     );
   }
 }
 
-export default GreenspaceItem;
+export default SearchedCoordinateItem;

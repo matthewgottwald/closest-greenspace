@@ -1,8 +1,5 @@
 import json
 import pymysql
-from math import radians, cos, sin, asin, sqrt
-
-pi = 3.141592653589793
 
 # Configuration values of Database
 endpoint = 'greenspaces-database.ctsnk4nhnrde.us-east-2.rds.amazonaws.com'
@@ -10,78 +7,87 @@ username = 'admin'
 password = 'greenspaces'
 database_name = 'greenspaces'
 active_table = 'ontario_provincial_parks'
-city = None
-subcategory = None
+operating_park = True
+non_operating_park = True
 
-# Connection
+# Connect to database
 connection = pymysql.connect(
     host=endpoint, user=username, passwd=password, db=database_name)
-print("setup handler")
 
 
-def handler(event, context):
+# def exception_handler(e):
+#     if (e == "Missing queryStringParameters"):
+#         status_code = 400
+#         return {
+#             'statusCode': status_code,
+#             'body': json.dumps(str(e))
+#         }
+
+
+# This function will return the closest provincial park
+def getClosestPark(event):
     cursor = connection.cursor()
 
-    print('received event:')
-    print(event)
-
     # Get the Latitude and Longitude from the request
-    cur_latitude = float(event["queryStringParameters"]["latitude"])
-    cur_longitude = float(event["queryStringParameters"]["longitude"])
+    if ('queryStringParameters' in event and 'latitude' in event['queryStringParameters'] and 'longitude' in event['queryStringParameters']):
+        cur_latitude = float(event["queryStringParameters"]["latitude"])
+        cur_longitude = float(event["queryStringParameters"]["longitude"])
+    else:
+        # return error if query string not provided
+        return {
+            'statusCode': 400,
+            'body': json.dumps(str("Missing queryStringParameters"))
+        }
 
+    # radius of the search
     search_distance = 25
 
-    cur_latitude_rad = cur_latitude * (pi / 180)
-    cur_longitude_rad = cur_longitude * (pi / 180)
-
-    # Get the required data from the database - loop until we get a result
-
+    # Get the required data from the database - increase the radius until we get a result
     while (cursor.rowcount <= 0):
-        # General Query - NO city, subcategory
-        if (city is None) and (subcategory is None):
+        # General Query - Search all operating and non-operating parks
+        if operating_park and non_operating_park:
             cursor.execute(
                 'SELECT park_name, latitude, longitude, description, park_operating, SQRT(POW(111.2 * (latitude - ' + str(cur_latitude) + '), 2) + POW(111.2 * (' + str(cur_longitude) + ' - longitude) * COS(latitude / 57.3), 2)) AS distance  FROM ' + active_table + ' HAVING distance < ' + str(search_distance) + ' ORDER BY distance')
 
-        # City Query - No subcategory
-        elif (city is not None) and (subcategory is None):
-            cursor.execute('SELECT park_name, latitude, longitude FROM ' +
-                           active_table + ' WHERE city = ' + city)
+        # Search only operating parks
+        elif operating_park and not non_operating_park:
+            cursor.execute(
+                'SELECT park_name, latitude, longitude, description, park_operating, SQRT(POW(111.2 * (latitude - ' + str(cur_latitude) + '), 2) + POW(111.2 * (' + str(cur_longitude) + ' - longitude) * COS(latitude / 57.3), 2)) AS distance  FROM ' + active_table + ' WHERE park_operating = "TRUE" HAVING distance < ' + str(search_distance) + ' ORDER BY distance')
 
-        # City + Subcategory Query
-        elif (city is not None) and (subcategory is not None):
-            cursor.execute('SELECT park_name, latitude, longitude FROM ' +
-                           active_table + ' WHERE city = ' + city + ' AND subcategory = ' + subcategory)
+        # Search only non-operating parks
+        elif not operating_park and non_operating_park:
+            cursor.execute(
+                'SELECT park_name, latitude, longitude, description, park_operating, SQRT(POW(111.2 * (latitude - ' + str(cur_latitude) + '), 2) + POW(111.2 * (' + str(cur_longitude) + ' - longitude) * COS(latitude / 57.3), 2)) AS distance  FROM ' + active_table + ' WHERE park_operating = "FALSE" HAVING distance < ' + str(search_distance) + ' ORDER BY distance')
 
-        # Increase the possible distance by double
+        # Double the radius if no results found
         search_distance = search_distance * 2
 
     closest_greenspaces = cursor.fetchall()
     print(closest_greenspaces)
 
-    return {
+    response = {'statusCode': 200,
+                'headers': {
+                    'Access-Control-Allow-Headers': '*',
+                    'Access-Control-Allow-Origin': '*',
+                    'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
+                },
+                'body': json.dumps({"park_name": closest_greenspaces[0][0],
+                                    "latitude": closest_greenspaces[0][1],
+                                    "longitude": closest_greenspaces[0][2],
+                                    "description": closest_greenspaces[0][3],
+                                    "park_operating": closest_greenspaces[0][4],
+                                    "distance": closest_greenspaces[0][5]})
+                }
+    return response
 
-        # Return error did not provide needed latitude / longitude
 
-        # Return the result if provided
-        'statusCode': 200,
-        'headers': {
-            # 'Content-Type': 'application/json'
-            'Access-Control-Allow-Headers': '*',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Methods': 'OPTIONS,POST,GET'
-        },
-        'body': json.dumps(closest_greenspaces[0])
-    }
+# function called when lambda is invoked
+def handler(event, context):
+    print('received event:')
+    print(event)
 
-
-# def dist(lat1, long1, lat2, long2):
-#     # convert decimal degrees to radians
-#     lat1, long1, lat2, long2 = map(radians, [lat1, long1, lat2, long2])
-#     # haversine formula
-#     dlon = long2 - long1
-#     dlat = lat2 - lat1
-#     a = sin(dlat/2)**2 + cos(lat1) * cos(lat2) * sin(dlon/2)**2
-#     c = 2 * asin(sqrt(a))
-#     r = 6371  # Radius of earth in kilometers is 6371
-#     km = r * c
-#     return km
+    # try:
+    if (event["httpMethod"] == "GET"):
+        return getClosestPark(event)
+    # except Exception as e:
+    #     return exception_handler(e)
