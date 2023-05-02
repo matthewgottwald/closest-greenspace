@@ -1,15 +1,18 @@
 .main {
-  margin-top: 5em;
+  margin-top: 2em;
   border-radius: 5px;
   border: 1px solid #777575;
 }
 
-.center {
+.centerHeader {
   justify-content: center;
   padding: 10px;
 }
 
-
+.center {
+  justify-content: center;
+  padding: 5px;
+}
 
 .item {
   padding: 15px 0px !important;

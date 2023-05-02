@@ -105,8 +105,7 @@ class App extends React.Component {
               currentSearch={this.state.currentSearch}
             />
           </div>
-          <div className="ui one wide column"></div>
-          <div className="ui four wide column">
+          <div className="ui five wide column">
             <SearchCoordinates
               onSearchSubmit={this.onSearchSubmit}
               currentSearch={this.state.currentSearch}

@@ -8,7 +8,7 @@ class ClosestGreenspace extends React.Component {
   render() {
     return (
       <div className="ui main">
-        <h2>The closest greenspace is</h2>
+        <h2 className="center">The closest greenspace is:</h2>
         <table className="ui celled table">
           <thead>
             <tr>
