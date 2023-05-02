@@ -1,9 +1,10 @@
-# Getting Started with Create React App
+A serverless webapp that allows the user to search for the closest provincial park by clicking on the map or entering coordinates. The back end of this project utilizes AWS Lambda, API Gateway and RDS. 
 
 <img width="958" alt="image" src="https://user-images.githubusercontent.com/45056814/235562707-77d3c091-51af-42a7-8eeb-fda79bcddfca.png">
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+# Getting Started with Create React App
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 ## Available Scripts
 
 In the project directory, you can run:
