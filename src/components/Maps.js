@@ -10,7 +10,7 @@ class Marker extends React.Component {
   render() {
     return (
       <div>
-        <img className="ui pin" />
+        <img className="ui pin" alt="pin" />
       </div>
     );
   }
@@ -32,8 +32,8 @@ class Map extends React.Component {
     // These default props are where the map zooms to when we first turn it on
     const defaultProps = {
       center: {
-        lat: 43.8021959858542,
-        lng: -79.17466031119214,
+        lat: 43.8105607731589,
+        lng: -79.15370930675344,
       },
       zoom: 11,
     };
@@ -52,7 +52,7 @@ class Map extends React.Component {
                 bootstrapURLKeys={{
                   key: process.env.REACT_APP_GOOGLE_MAPS_API_KEY,
                 }}
-                defaultCenter={defaultProps.center}
+                center={defaultProps.center}
                 defaultZoom={defaultProps.zoom}
                 onClick={this.getMapCoordinates}
               >
