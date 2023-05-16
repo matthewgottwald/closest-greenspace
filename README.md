@@ -4,7 +4,7 @@ A serverless webapp that allows the user to search for the closest provincial pa
 
 # Example of a search for a park
 
-<img width="958" alt="image" src="https://user-images.githubusercontent.com/45056814/235562707-77d3c091-51af-42a7-8eeb-fda79bcddfca.png">
+<img width="960" alt="Screenshot 2023-05-16 134321" src="https://github.com/matthewgottwald/closest-greenspace/assets/45056814/f01f2b34-ce3e-4ac9-824d-3fae7e133612">
 
 # Setup
 
