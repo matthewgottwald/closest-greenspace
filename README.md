@@ -2,6 +2,8 @@
 
 A serverless webapp that allows the user to search for the closest provincial park by clicking on the map or entering coordinates. The back end of this project utilizes AWS Lambda, API Gateway and RDS.
 
+# Breif Demo 
+
 # Example of a search for a park
 
 <img width="960" alt="Screenshot 2023-05-16 134321" src="https://github.com/matthewgottwald/closest-greenspace/assets/45056814/f01f2b34-ce3e-4ac9-824d-3fae7e133612">
