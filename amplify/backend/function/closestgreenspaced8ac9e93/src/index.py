@@ -1,10 +1,10 @@
 import json
 import pymysql
 
-# Configuration values of Database
+# Configuration values of Database (Must Modify This Database is now disabled)
 endpoint = 'greenspaces-database.ctsnk4nhnrde.us-east-2.rds.amazonaws.com'
 username = 'admin'
-password = 'greenspaces'
+password = 'Enter'
 database_name = 'greenspaces'
 active_table = 'ontario_provincial_parks'
 operating_park = True
